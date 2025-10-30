@@ -1,43 +1,46 @@
+const { INSTALL_COMMANDS, INSTALL_COMMAND_TEMPLATE } = require('./installCommands')
+
+const SHARED_DIRECTORIES = [
+  "models",
+  "databases",
+  "autoimport",
+  "outputs",
+  "nodes",
+  "text-inversion-output",
+  "text-inversion-training-data",
+]
+
 module.exports = {
-  cmds: {
-    win32: {
-      nvidia: "pip install \"InvokeAI[xformers]\" --upgrade --use-pep517 --extra-index-url https://download.pytorch.org/whl/cu124",
-      amd: "pip install torch-directml",
-      cpu: "pip install InvokeAI --upgrade --use-pep517 --extra-index-url https://download.pytorch.org/whl/cpu"
-    },
-    linux: {
-      nvidia: "pip install \"InvokeAI[xformers]\" --upgrade --use-pep517 --extra-index-url https://download.pytorch.org/whl/cu124",
-      amd: "pip install InvokeAI --upgrade --use-pep517 --extra-index-url https://download.pytorch.org/whl/rocm6.1",
-      cpu: "pip install InvokeAI --upgrade --use-pep517 --extra-index-url https://download.pytorch.org/whl/cpu"
-    },
-    darwin: "pip install InvokeAI --upgrade --use-pep517"
-  },
+  cmds: INSTALL_COMMANDS,
   run: [{
+    method: "shell.run",
+    params: {
+      message: [
+        "mkdir -p app",
+        `mkdir -p ${SHARED_DIRECTORIES.map((dir) => `app/${dir}`).join(' ')}`,
+      ]
+    }
+  }, {
     method: "shell.run",
     params: {
       venv: "env",
       path: "app",
       message: [
-        "{{(platform === 'darwin' ? self.cmds.darwin : (['nvidia', 'amd'].includes(gpu) ? self.cmds[platform][gpu] : self.cmds[platform].cpu))}}",
+        INSTALL_COMMAND_TEMPLATE,
       ]
     }
   }, {
     method: "fs.link",
     params: {
-      drive: {
-        "models": "app/models",
-        "databases": "app/databases",
-        "autoimport": "app/autoimport",
-        "outputs": "app/outputs",
-        "nodes": "app/nodes",
-        "text-inversion-output": "app/text-inversion-output",
-        "text-inversion-training-data": "app/text-inversion-training-data"
-      }
+      drive: SHARED_DIRECTORIES.reduce((links, dir) => {
+        links[dir] = `app/${dir}`
+        return links
+      }, {})
     }
   }, {
     method: "notify",
     params: {
-      html: "App launched. Click 'start' to get started"
+      html: "Installation complete. Use 'start' to launch the web UI."
     }
   }]
 }

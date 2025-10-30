@@ -9,7 +9,7 @@ module.exports = {
         env: { },                   // Edit this to customize environment variables (see documentation)
         path: "app",
         message: [
-          "invokeai-web",
+          "invokeai-web --host 0.0.0.0 --port 9090",
         ],
         on: [{
           // The regular expression pattern to monitor.
