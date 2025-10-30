@@ -1,19 +1,27 @@
+const { INSTALL_COMMANDS, INSTALL_COMMAND_TEMPLATE } = require('./installCommands')
+
 module.exports = {
+  cmds: INSTALL_COMMANDS,
   run: [{
     method: "shell.run",
     params: {
-      message: "git pull"
+      message: [
+        "mkdir -p app"
+      ]
     }
   }, {
     method: "shell.run",
     params: {
-      message: "git pull",
-      path: "app"
+      venv: "env",
+      path: "app",
+      message: [
+        INSTALL_COMMAND_TEMPLATE,
+      ]
     }
   }, {
-    method: "script.start",
+    method: "notify",
     params: {
-      uri: "install.js"
+      html: "Update complete. Restart the service from the Start tab."
     }
   }]
 }
