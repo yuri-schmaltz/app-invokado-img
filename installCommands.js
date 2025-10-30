@@ -1,7 +1,7 @@
 const INSTALL_COMMANDS = {
   win32: {
     nvidia: "pip install \"InvokeAI[xformers]\" --upgrade --use-pep517 --extra-index-url https://download.pytorch.org/whl/cu124",
-    amd: "pip install torch-directml",
+    amd: "pip install InvokeAI --upgrade --use-pep517 --extra-index-url https://download.pytorch.org/whl/cpu && pip install torch-directml --upgrade",
     cpu: "pip install InvokeAI --upgrade --use-pep517 --extra-index-url https://download.pytorch.org/whl/cpu"
   },
   linux: {
