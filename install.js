@@ -15,7 +15,9 @@ const DIRECTORIES_TO_CREATE = [
   ...SHARED_DIRECTORIES.map((dir) => `app/${dir}`),
 ]
 
-const CREATE_DIRECTORIES_COMMAND = `node -e "const fs = require('fs'); const dirs = ${JSON.stringify(DIRECTORIES_TO_CREATE)}; dirs.forEach((dir) => fs.mkdirSync(dir, { recursive: true }));"`
+const DIRECTORIES_TO_CREATE_JSON = JSON.stringify(DIRECTORIES_TO_CREATE).replace(/"/g, '\\"')
+
+const CREATE_DIRECTORIES_COMMAND = `node -e "const fs = require('fs'); const dirs = ${DIRECTORIES_TO_CREATE_JSON}; dirs.forEach((dir) => fs.mkdirSync(dir, { recursive: true }));"`
 
 module.exports = {
   cmds: INSTALL_COMMANDS,
