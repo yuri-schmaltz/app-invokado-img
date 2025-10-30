@@ -15,10 +15,12 @@ module.exports = {
         venv: "env",                // Edit this to customize the venv folder path
         env: {
           PYTHONPATH: combinedPythonPath,
+          INVOKEAI_HOST: "0.0.0.0",
+          INVOKEAI_PORT: "9090",
         },                   // Edit this to customize environment variables (see documentation)
         path: "app",
         message: [
-          "invokeai-web --host 0.0.0.0 --port 9090",
+          "invokeai-web",
         ],
         on: [{
           // The regular expression pattern to monitor.
