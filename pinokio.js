@@ -1,4 +1,5 @@
 const path = require('path')
+const { getHost, getPort, buildFallbackUrl } = require('./runtimeConfig')
 module.exports = {
   version: "1.5",
   title: "Invoke",
@@ -18,26 +19,19 @@ module.exports = {
     } else if (installed) {
       if (running) {
         let local = kernel.memory.local[path.resolve(__dirname, "start.js")]
-        if (local && local.url) {
-          return [{
-            default: true,
-            icon: "fa-solid fa-rocket",
-            text: "Open Web UI",
-            href: local.url,
-            popout: true,
-          }, {
-            icon: 'fa-solid fa-terminal',
-            text: "Terminal",
-            href: "start.js",
-          }]
-        } else {
-          return [{
-            default: true,
-            icon: 'fa-solid fa-terminal',
-            text: "Terminal",
-            href: "start.js",
-          }]
-        }
+        const fallbackUrl = buildFallbackUrl(getHost(), getPort())
+        const resolvedUrl = (local && local.url) || fallbackUrl
+        return [{
+          default: true,
+          icon: "fa-solid fa-rocket",
+          text: "Open Web UI",
+          href: resolvedUrl,
+          popout: true,
+        }, {
+          icon: 'fa-solid fa-terminal',
+          text: "Terminal",
+          href: "start.js",
+        }]
       } else {
         return [{
           default: true,

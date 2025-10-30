@@ -40,7 +40,7 @@ module.exports = {
   }, {
     method: "notify",
     params: {
-      html: "Installation complete. Use 'start' to launch the web UI."
+      html: "Installation complete. Use 'start' to launch the web UI. Set PINOKIO_INVOKEAI_HOST/PINOKIO_INVOKEAI_PORT to customize the endpoint before starting."
     }
   }]
 }

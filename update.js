@@ -21,7 +21,7 @@ module.exports = {
   }, {
     method: "notify",
     params: {
-      html: "Update complete. Restart the service from the Start tab."
+      html: "Update complete. Restart the service from the Start tab. Adjust PINOKIO_INVOKEAI_HOST/PINOKIO_INVOKEAI_PORT before starting if you need a different endpoint."
     }
   }]
 }
